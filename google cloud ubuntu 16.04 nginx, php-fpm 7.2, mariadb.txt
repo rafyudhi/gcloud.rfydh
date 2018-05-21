@@ -207,3 +207,49 @@ sudo systemctl restart postgresql
 # terutama yang di 660, bisa deh. ga ngerti juga, untuk apa itu
 # uninstall php existing, kalo mau downfrade ke php 7.0
 sudo apt-get purge 'php*'
+
+# install php-fpm 7.0
+sudo apt install php7.0-fpm \
+   php7.0-common \
+   php7.0-mbstring \
+   php7.0-xmlrpc \
+   php7.0-soap \
+   php7.0-gd \
+   php7.0-xml \
+   php7.0-intl \
+   php7.0-mysql \
+   php7.0-cli \
+   php7.0-zip \
+   php7.0-curl \
+   curl \
+   vim \
+   wget \
+   git
+   
+sudo sed -i 's/listen.owner = www-data/listen.owner = nginx/g' /etc/php/7.0/fpm/pool.d/www.conf
+sudo sed -i 's/listen.group = www-data/listen.group = nginx/g' /etc/php/7.0/fpm/pool.d/www.conf
+sudo sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.0/fpm/php.ini
+
+
+sudo nano /etc/php/7.0/fpm/php.ini
+
+# update php.ini
+file_uploads = On
+allow_url_fopen = On
+max_file_uploads = 200
+max_input_vars = 10000
+max_execution_time = 360
+memory_limit = 512M
+post_max_size = 250M
+upload_max_filesize = 250M
+date.timezone = Asia/Jakarta
+
+sudo nano /etc/php/7.0/fpm/pool.d/www.conf
+
+# ubah pool.d/www.conf
+listen.owner = www-data
+listen.group = www-data
+listen.mode = 0660
+
+sudo systemctl restart nginx.service
+sudo systemctl restart php7.0-fpm.service
