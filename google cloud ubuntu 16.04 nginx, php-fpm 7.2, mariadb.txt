@@ -205,3 +205,5 @@ sudo systemctl restart postgresql
 # pas install, ada error : ubuntu ERROR: [pool www] cannot get uid for user 'nginx': Success
 # yang ane lakukan, ane update aja di pool.d/www.conf, ganti semua user nginx, ubah jadi user www-data
 # terutama yang di 660, bisa deh. ga ngerti juga, untuk apa itu
+# uninstall php existing, kalo mau downfrade ke php 7.0
+sudo apt-get purge 'php*'
