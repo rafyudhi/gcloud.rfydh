@@ -1,0 +1,41 @@
+nano ~/.bashrc
+nano ~/.profile 
+
+#add this line
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+
+source ~/.bashrc
+
+sudo apt update
+sudo apt install mysql-server mysql-client
+
+sudo apt-get install apache2
+
+sudo apt-get install python-software-properties
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+
+sudo apt install -y php5.6 \
+   libapache2-mod-php5.6 \
+   php5.6-mcrypt \
+   php5.6-mbstring \
+   php5.6-curl \
+   php5.6-cli \
+   php5.6-mysql \
+   php5.6-gd \
+   php5.6-intl \
+   php5.6-xsl \
+   php5.6-xml \
+   php5.6-xmlrpc \
+   php5.6-zip \
+
+sudo /etc/init.d/apache2 restart
+sudo cp /var/www/html/index.html /var/www/html/index.html.backup
+sudo rm -rf /var/www/html/index.html
+sudo nano /var/www/html/index.php
+sudo nano /var/www/html/profiler.php
+sudo a2enmod rewrite
+sudo /etc/init.d/apache2 restart
