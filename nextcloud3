@@ -1,0 +1,5 @@
+sudo adduser devops
+sudo usermod -aG sudo devops
+sudo nano /etc/ssh/sshd_config
+sudo /etc/init.d/ssh restart
+
