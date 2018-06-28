@@ -46,3 +46,7 @@ sudo apt install unzip
 unzip latest-13.zip
 sudo chown -R www-data:www-data nextcloud
 
+sudo apt install php7.2-xml
+sudo apt install php7.2-zip
+sudo apt install php7.2-dom
+
