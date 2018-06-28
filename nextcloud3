@@ -85,3 +85,14 @@ sudo a2enmod dir
 sudo a2enmod mime
 sudo systemctl restart apache2.service
 
+# set ssl
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-apache
+
+sudo certbot --apache -m mr.rafyudhi@gmail.com -d cloud.rfydh.id
+sudo systemctl restart apache2.service
+
+sudo crontab -e
+
+45 2 * * 6 cd /etc/letsencrypt/ && ./certbot-auto renew && /etc/init.d/apache2 restart
