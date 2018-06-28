@@ -50,3 +50,38 @@ sudo apt install php7.2-xml
 sudo apt install php7.2-zip
 sudo apt install php7.2-dom
 
+sudo nano /etc/apache2/sites-available/nextcloud.conf
+
+<VirtualHost *:80>
+   ServerAdmin admin@cloud.rfydh.id
+   DocumentRoot /home/devops/www/nextcloud
+   ServerName cloud.rfydh.id
+   ServerAlias cloud.rfydh.id
+
+   Alias /nextcloud "/home/devops/www/nextcloud/"
+
+   <Directory /home/devops/www/nextcloud/>
+      Options +FollowSymlinks
+      AllowOverride All
+      Require all granted
+      <IfModule mod_dav.c>
+         Dav off
+      </IfModule>
+
+      SetEnv HOME /home/devops/www/nextcloud
+      SetEnv HTTP_HOME /home/devops/www/nextcloud
+   </Directory>
+
+   ErrorLog ${APACHE_LOG_DIR}/nextcloud-error_log
+   CustomLog ${APACHE_LOG_DIR}/nextcloud-access_log common
+</VirtualHost>
+
+sudo a2enmod rewrite headers env dir mime
+sudo service apache2 restart
+sudo a2enmod rewrite
+sudo a2enmod headers
+sudo a2enmod env
+sudo a2enmod dir
+sudo a2enmod mime
+sudo systemctl restart apache2.service
+
