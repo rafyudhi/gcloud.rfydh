@@ -160,6 +160,16 @@ server {
    }
 }
 
+# theres sometimes view error, no input specidied, especially when we create profiler.php in /usr/share/nginx/html/profiler.php
+# solution for this is use this code : 
+    location ~* \.php$ {
+      fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+      include         fastcgi_params;
+      fastcgi_param   SCRIPT_FILENAME    /usr/share/nginx/html$fastcgi_script_name;
+      fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
+    }
+# SCRIPT_FILENAME, parameter $documentroot ya diubah jadi full path.
+
 sudo systemctl restart nginx.service
 
 # install redis
