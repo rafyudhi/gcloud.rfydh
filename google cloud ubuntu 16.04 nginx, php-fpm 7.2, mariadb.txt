@@ -1,3 +1,14 @@
+# solving error LC_ALL, use this notes
+nano ~/.bashrc
+nano ~/.profile 
+
+#add this line
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+
+source ~/.bashrc
+
 # google cloud ubuntu 16.04 nginx, php-fpm 7.2, mariadb, phalcon for php-fpm 7.2
 
 sudo adduser devops
@@ -270,3 +281,4 @@ sudo apt-get --purge remove "mysql*"
 sudo rm -rf /etc/mysql/
 sudo updatedb
 locate mysql
+
