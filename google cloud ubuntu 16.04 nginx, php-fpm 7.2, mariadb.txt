@@ -282,3 +282,6 @@ sudo rm -rf /etc/mysql/
 sudo updatedb
 locate mysql
 
+# renewal lets encrypt https ssl
+# i've try in my glcoud nginx server and it's works
+sudo certbot renew --dry-run
