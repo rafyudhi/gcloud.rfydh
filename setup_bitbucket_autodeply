@@ -1,4 +1,5 @@
-chown repo yang mau kita autodeploy
+#chown repo yang mau kita autodeploy
+chown -R devops:www-data helpdesk.kis
 
 sudo mkdir /var/www/.ssh
 sudo chown -R www-data:www-data /var/www/.ssh/
