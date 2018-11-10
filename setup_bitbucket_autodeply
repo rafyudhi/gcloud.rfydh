@@ -1,0 +1,35 @@
+chown repo yang mau kita autodeploy
+
+sudo mkdir /var/www/.ssh
+sudo chown -R www-data:www-data /var/www/.ssh/
+sudo -u www-data ssh-keygen -t rsa
+cd /var/www/.ssh/
+cat id_rsa.pub
+# tambahin key di repo github, addkeys
+# coba jalanin dulu git pull as www-data manual di server
+cd /home/devops/web/helpdesk.kis/
+sudo chown -R www-data:www-data .git
+sudo -u www-data git pull
+#after that, make logs for monitoring
+# finall file deploy.php after changed
+
+<?php
+// if(function_exists('shell_exec')) {
+//     echo "exec is enabled";
+// } else { echo "ga ada";  };
+
+if ($_SERVER['HTTP_X_EVENT_KEY']=='repo:push') :
+    $do = shell_exec("git pull");
+endif;
+    
+$myfile = fopen("../logs/bitbucket_autodeploy.log", "a") or die("Unable to open file!");
+$txt ="pull at : ".date('Y-m-d H:i:s')."\n";
+$txt.="type : git pull\n";
+$txt.="mssg : ".$theCommitMessage."\n";
+$txt.="post : ".json_encode($_POST)."\n";
+$txt.="request : ".json_encode($_REQUEST)."\n";
+$txt.="server : ".json_encode($_SERVER)."\n";
+$txt.="-----------------------------------------------------------------\n";
+fwrite($myfile, $txt);
+fclose($myfile);
+?>
