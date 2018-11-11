@@ -293,3 +293,17 @@ server {
      server_name www.muslimart.id;
      return 301 $scheme://muslimart.id$request_uri;
 }
+
+# enable CORS in nginx
+location ~* \.php$ {
+   add_header Access-Control-Allow-Origin *;
+   
+   fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+   include         fastcgi_params;
+   fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+   fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
+}
+
+#add_header 'Access-Control-Allow-Credentials' 'true';
+#add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
+#add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
