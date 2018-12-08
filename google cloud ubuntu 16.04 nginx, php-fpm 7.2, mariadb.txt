@@ -3,7 +3,7 @@ nano ~/.bashrc
 nano ~/.profile 
 
 #add this line
-export LC_ALL=en_US.UTF-8
+export LC_ALL=en_US.UTF-8x
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
@@ -307,3 +307,8 @@ location ~* \.php$ {
 #add_header 'Access-Control-Allow-Credentials' 'true';
 #add_header 'Access-Control-Allow-Headers' 'Content-Type,Accept';
 #add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+
+# add install wordpress
+ wget -c https://wordpress.org/wordpress-4.9.8.tar.gz
+ tar -xzvf wordpress-4.9.8.tar.gz
+ sudo rsync -av wordpress/* info.ditppa.id
