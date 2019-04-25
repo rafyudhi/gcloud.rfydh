@@ -111,17 +111,10 @@ sudo systemctl restart nginx.service
 sudo curl -sS http://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
 
-# set ssl
-sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
-sudo apt-get install python-certbot-nginx
-# [-d domain.. -d domain ..n..]
-sudo certbot --nginx -m [alamat_email] -d [nama_domain]
-
+#create block/virtualhost in nginx
 sudo nano /etc/nginx/conf.d/[nama_domain].conf
 
-# value ***domain***.conf
-
+# value [nama_domain].conf
 server {
    listen 80;
    listen [::]:80;
@@ -183,6 +176,12 @@ server {
 # SCRIPT_FILENAME, parameter $documentroot ya diubah jadi full path.
 
 sudo systemctl restart nginx.service
+
+# set ssl
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+sudo certbot --nginx -m [alamat_email] -d [nama_domain]
 
 # install redis
 sudo apt-get install redis-server
