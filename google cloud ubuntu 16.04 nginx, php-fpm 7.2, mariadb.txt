@@ -116,8 +116,9 @@ sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
 sudo apt-get install python-certbot-nginx
 # [-d domain.. -d domain ..n..]
-sudo certbot --nginx -m ***email*** -d ***domain***
-sudo nano /etc/nginx/conf.d/***domain***.conf
+sudo certbot --nginx -m [alamat_email] -d [nama_domain]
+
+sudo nano /etc/nginx/conf.d/[nama_domain].conf
 
 # value ***domain***.conf
 
