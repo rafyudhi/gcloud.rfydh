@@ -116,52 +116,26 @@ sudo nano /etc/nginx/conf.d/[nama_domain].conf
 
 # value [nama_domain].conf
 server {
-   listen 80;
-   listen [::]:80;
-   server_name  ***domain***;
+   server_name    app.kemalaintisolusi.co.id;
+   root           /home/devops/web_app/kis_intranet_2019_72;
+   index          index.php;
 
-   #access_log  /var/log/nginx/host.access.log  main;
+   access_log  /var/log/nginx/app.kemalaintisolusi.co.id-access.log;
+   error_log   /var/log/nginx/app.kemalaintisolusi.co.id-error.log;
 
-   root   /home/devops/web/***domain***;
-   index  index.php index.html index.htm;
-
-   #error_page  404              /404.html;
-
-   # redirect server error pages to the static page /50x.html
-   #
-
-   error_page   500 502 503 504  /50x.html;
-   location = /50x.html {
-      root   /usr/share/nginx/html;
+   location / {
+      try_files $uri $uri/ /index.php?_url=$uri&$args;
    }
 
    client_max_body_size 200M;
 
-   location / {
-      #try_files $uri $uri/ =404;
-      try_files $uri $uri/ /index.php?$args;
-   }
-
    location ~* \.php$ {
+      #add_header Access-Control-Allow-Origin *;
+
       fastcgi_pass unix:/run/php/php7.2-fpm.sock;
       include         fastcgi_params;
       fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
       fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
-   }
-
-   location ~ /\.ht {
-      deny  all;
-   }
-
-   listen [::]:443 ssl ipv6only=on; # managed by Certbot
-   listen 443 ssl; # managed by Certbot
-   ssl_certificate /etc/letsencrypt/live/***domain***/fullchain.pem; # managed by Cert$
-   ssl_certificate_key /etc/letsencrypt/live/***domain***/privkey.pem; # managed by Ce$
-   include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-   ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-   if ($scheme != "https") {
-      return 301 https://$host$request_uri;
    }
 }
 
@@ -182,6 +156,48 @@ sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
 sudo apt-get install python-certbot-nginx
 sudo certbot --nginx -m [alamat_email] -d [nama_domain]
+
+# certbot automatically update nginx conf like this
+server {
+   server_name    app.kemalaintisolusi.co.id;
+   root           /home/devops/web_app/kis_intranet_2019_72;
+   index          index.php;
+
+   access_log  /var/log/nginx/app.kemalaintisolusi.co.id-access.log;
+   error_log   /var/log/nginx/app.kemalaintisolusi.co.id-error.log;
+
+   location / {
+      try_files $uri $uri/ /index.php?_url=$uri&$args;
+   }
+
+   client_max_body_size 200M;
+
+   location ~* \.php$ {
+      #add_header Access-Control-Allow-Origin *;
+
+      fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+      include         fastcgi_params;
+      fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+      fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;
+   }
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/app.kemalaintisolusi.co.id/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/app.kemalaintisolusi.co.id/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = app.kemalaintisolusi.co.id) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+    
+   server_name    app.kemalaintisolusi.co.id;
+    listen 80;
+    return 404; # managed by Certbot
+}
 
 # install redis
 sudo apt-get install redis-server
