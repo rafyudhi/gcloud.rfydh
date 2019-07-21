@@ -1,0 +1,16 @@
+## install iperf3
+sudo yum install iperf3
+
+## running port 5201 on server
+iperf3 -s -f K
+
+
+vi /etc/services
+## add line : 
+iperf3          5201/tcp        test_iperf3     #iperf3
+firewall-cmd --zone=public --add-port=5201/tcp --permanent
+firewall-cmd --reload
+iptables-save | grep 5201
+## check newly add port status
+lsof -i -P | grep http
+netstat -na | grep 5201
