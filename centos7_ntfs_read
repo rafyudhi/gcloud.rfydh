@@ -1,0 +1,7 @@
+wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -ivh epel-release-latest-7.noarch.rpm
+yum install epel-release
+yum clean all
+yum update
+yum install ntfs-3g -y
+yum install ntfsprogs -y
