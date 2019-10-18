@@ -1,0 +1,6 @@
+misal pas import error : 
+ERROR 2006 (HY000) at line 4508: MySQL server has gone away
+
+itu karena max_allowed_packet nya kecil, coba ubah aja.
+di my.ini or my.cfg (ane cases nya di mysql xampp 72)
+max_allowed_packet=990M
