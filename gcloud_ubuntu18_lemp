@@ -121,3 +121,8 @@ sudo systemctl status redis
 redis-cli 
 # do with 127.0.0.1 > ping
 sudo systemctl restart redis
+
+# install php-redis
+sudo apt install php-redis
+sudo systemctl restart php7.2-fpm
+
