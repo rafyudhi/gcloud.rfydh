@@ -55,6 +55,9 @@ mysql -u root -p
 
 sudo apt install php7.2 php7.2-fpm php7.2-mysql php-common php7.2-cli php7.2-common php7.2-json php7.2-opcache php7.2-readline php7.2-mbstring php7.2-xml php7.2-gd php7.2-curl
 
+#install php zip unzip
+sudo apt install php7.2-zip
+
 sudo systemctl start php7.2-fpm
 
 sudo systemctl enable php7.2-fpm
@@ -125,4 +128,21 @@ sudo systemctl restart redis
 # install php-redis
 sudo apt install php-redis
 sudo systemctl restart php7.2-fpm
+
+#install lest encrypt https
+sudo apt install certbot python3-certbot-nginx
+
+# setup https
+sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --must-staple -d pma.example.com --email your-email-address
+
+Explanation:
+
+–nginx: Use the Nginx authenticator and installer
+–agree-tos: Agree to Let’s Encrypt terms of service
+–redirect: Add 301 redirect.
+–hsts: Add the Strict-Transport-Security header to every HTTP response.
+–staple-ocsp: Enables OCSP Stapling.
+–must-staple: Adds the OCSP Must Staple extension to the certificate.
+-d flag is followed by a list of domain names, separated by comma. You can add up to 100 domain names.
+–email: Email used for registration and recovery contact.
 
