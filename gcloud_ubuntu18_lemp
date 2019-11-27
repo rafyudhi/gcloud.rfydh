@@ -146,3 +146,45 @@ Explanation:
 -d flag is followed by a list of domain names, separated by comma. You can add up to 100 domain names.
 –email: Email used for registration and recovery contact.
 
+# delete cerbot
+sudo certbot delete --cert-name example.com
+
+#vhost apache https utk ditppa
+
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+    ServerAdmin admin@ditppa.id
+    ServerName ditppa.id
+    ServerAlias ditppa.id
+    DocumentRoot /home/devops/web/nextcloud_16/nextcloud
+    ErrorLog ${APACHE_LOG_DIR}/ditppa16.id-error.log
+    CustomLog ${APACHE_LOG_DIR}/ditppa16.id-access.log combined
+    <Directory "/home/devops/web/nextcloud_16/nextcloud">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+SSLCertificateFile /etc/letsencrypt/live/ditppa.id/fullchain.pem
+SSLCertificateKeyFile /etc/letsencrypt/live/ditppa.id/privkey.pem
+Include /etc/letsencrypt/options-ssl-apache.conf
+</VirtualHost>
+</IfModule>
+
+#Normal http ditppa
+
+<VirtualHost *:80>
+    ServerAdmin admin@ditppa.id
+    ServerName ditppa.id
+    ServerAlias ditppa.id
+    DocumentRoot /home/devops/web/nextcloud_16/nextcloud
+    ErrorLog ${APACHE_LOG_DIR}/ditppa16.id-error.log
+    CustomLog ${APACHE_LOG_DIR}/ditppa16.id-access.log combined
+    <Directory "/home/devops/web/nextcloud_16/nextcloud">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+RewriteEngine on
+RewriteCond %{SERVER_NAME} =ditppa.id
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
