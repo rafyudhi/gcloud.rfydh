@@ -2,6 +2,12 @@ sudo adduser devops
 sudo usermod -aG sudo devops
 sudo nano /etc/ssh/sshd_config
 
+# add existing user to www-data, jadi user tetep bisa write di www-data folder
+sudo usermod -a -G www-data terangtrip
+
+# To see list of all members of a group named www-data, run the following grep command on /etc/group file:
+grep ^www-data /etc/group
+
 # Change to no to disable tunnelled clear text passwords
 PasswordAuthentication yes
 
