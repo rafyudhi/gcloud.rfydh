@@ -2,3 +2,13 @@ sudo yum install epel-release
 sudo rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
 sudo rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 sudo sudo yum install exfat-utils fuse-exfat
+
+# update for centos 8, re2 install missing for phalcon dependency
+
+Download the RPM from EPEL (you can use cURL): http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/r/re2c-0.14.3-2.el7.x86_64.rpm
+curl http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/r/re2c-0.14.3-2.el7.x86_64.rpm --output re2c-0.14.3-2.el7.x86_64.rpm
+
+Install the RPM
+rpm -Uvh re2c-0.14.3-2.el7.x86_64.rpm
+
+That's it.
