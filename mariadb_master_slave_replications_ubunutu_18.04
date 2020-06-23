@@ -1,0 +1,92 @@
+# MariaDB Master Server
+1. Enable Binary Log and Replication on the Master
+
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+
+Find the Logging and Replication section in [mysqld]
+
+log-bin         = /var/log/mysql/master-bin
+log-bin-index   = /var/log/mysql/master-bin.index
+binlog_format   = mixed
+server-id       = 01
+replicate-do-db = db_skck_prod
+replicate-do-db = db_skck_prod_2 (kalo banyak database yang mau di backup)
+
+nano /etc/host
+supaya remote nya bisa via naming
+
+sudo systemctl restart mariadb
+
+create user 'replicant'@'%' identified by 'skck@2o2o';
+grant replication slave on *.* to replicant;
+flush privileges;
+
+Don’t exit MariaDB monitor now.
+
+Step 2: Enable Relay Log and Replication on the Slave
+
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+read-only       = 1
+bind-address            = 0.0.0.0
+server-id       = 02
+relay-log-index = /var/log/mysql/slave-relay-bin.index
+relay-log       = /var/log/mysql/slave-relay-bin
+replicate-do-db = db_skck_prod
+log-bin       = /var/log/mysql/02-bin
+log-bin-index = /var/log/mysql/02-bin.index
+binlog_format = mixed
+
+sudo systemctl restart mariadb
+systemctl status mariadb
+
+mysql > SHOW VARIABLES LIKE 'server_id';
+mysql > SET GLOBAL server_id=2;
+
+Step 3: Copy Database From the Master to the Slave
+login to database
+mysql > flush tables with read lock;
+show master status;
+
+field File and Position diisi nnti di server slave
+
+sudo mysqldump -u root db_skck_prod > db_skck_prod.sql
+show databases;
+unlock tables;
+
+scp db_skck_prod.sql devops@10.1.99.101:/home/devops
+
+Step 5: Connect the Slave to the Master
+
+create database, restore database
+
+MariaDB [(none)]> change master 'master01' to
+master_host='vmdbprod',
+master_user='replicant',
+master_password='skck@2o2o',
+master_port=3306,
+master_log_file='master-bin.000001',
+master_log_pos=8047,
+master_connect_retry=10,
+master_use_gtid=slave_pos;
+
+-> master_ssl=1;
+
+MariaDB [(none)]> start slave 'master01';
+MariaDB [(none)]> show slave 'master01' status\G;
+
+if success : 
+ Slave_IO_Running: Yes
+ Slave_SQL_Running: Yes
+
+MariaDB [(none)]> stop slave 'master01';
+
+MariaDB [(none)]> reset slave 'master01';
+
+MariaDB [(none)]> reset slave 'master01' all;
+
+
+
+
+
+
+
