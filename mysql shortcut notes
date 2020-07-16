@@ -1,3 +1,12 @@
+https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-18-04
+sudo nano /usr/share/phpmyadmin/.htaccess
+
+AuthType Basic
+AuthName "Restricted Files"
+AuthUserFile /etc/phpmyadmin/.htpasswd
+Require valid-user
+
+
 https://chartio.com/resources/tutorials/how-to-get-the-size-of-a-table-in-mysql/
 
 How to Get the Size of a Table in MySQL
