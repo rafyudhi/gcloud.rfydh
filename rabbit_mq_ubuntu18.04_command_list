@@ -1,0 +1,21 @@
+echo 'deb http://www.rabbitmq.com/debian/ testing main' | sudo tee /etc/apt/sources.list.d/rabbitmq.list
+wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install rabbitmq-server
+sudo systemctl enable rabbitmq-server
+sudo systemctl start rabbitmq-server
+sudo systemctl stop rabbitmq-server
+
+sudo rabbitmqctl list_users
+sudo rabbitmqctl delete_user 'devops'
+sudo rabbitmqctl add_user devops o9o2@2oi6
+sudo rabbitmqctl set_user_tags devops administrator
+sudo rabbitmqctl set_permissions -p / devops ".*" ".*" ".*"
+
+sudo rabbitmqctl list_queues
+
+# install rabbitmq management
+sudo rabbitmq-plugins enable rabbitmq_management
+
+http://10.1.99.95:15672/#/users
+http://localhost:15672
