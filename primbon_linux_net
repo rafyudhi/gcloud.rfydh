@@ -1,0 +1,2 @@
+ # inbound connection
+ netstat -o state established '( sport = :http or sport = :https )'
