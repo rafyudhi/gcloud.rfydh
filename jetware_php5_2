@@ -1,0 +1,62 @@
+curl -L http://jetware.io/appliances/jetware/lamp52_lts-170503/file/installer:nub_tgz/setup | sh
+
+yum install -y nano
+
+nano /jet/etc/php/conf.self/php.d/000-defaults.ini
+
+su jet restart apache
+
+-- after install
+
+bash-4.2$ usage
+
+## phpmyadmin
+
+Address: | http://_server_address_/phpmyadmin
+
+## php
+
+Path to php.ini: | /jet/etc/php/php.ini
+
+## mysqld
+
+Administrator username: | root
+Administrator password: | _empty_
+Socket: | /jet/run/mysqld/mysql.sock
+
+## apache
+
+Ports: | 80
+DocumentRoot: | /jet/var/apache/www/html
+
+## mysqld_main_db
+
+### Default databases
+
+main |
+
+## mail_submission
+
+Sendmail location: | /jet/bin/sendmail
+2022-04-06 08:11:44 Warning: purging the environment.
+ Suggested action: use keep_environment.
+
+## exim
+
+Default smtp port | 25
+
+## config
+
+### Directories
+
+Configurations: | /jet/etc
+Log files: | /jet/log
+Applications: | /jet/app
+Applications data: | /jet/var
+Temporary files: | /jet/tmp
+Persistent data: | /jet/prs
+
+## init
+
+Available services: | apache cron exim monit mysqld
+Service commands: | **start\|stop\|status\|restart _servicename_**
