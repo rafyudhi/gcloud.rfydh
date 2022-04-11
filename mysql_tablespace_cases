@@ -1,0 +1,5 @@
+Check MySQL Cluster Status
+To check the status of your MySQL cluster, log in to the master or primary database server host using SSH, start the MySQL command-line client using your administrative credentials, and run the following command within it:
+
+SHOW PROCESSLIST;
+SHOW SLAVE HOSTS;
