@@ -3,3 +3,62 @@ To check the status of your MySQL cluster, log in to the master or primary datab
 
 SHOW PROCESSLIST;
 SHOW SLAVE HOSTS;
+
+#Database Space Usage Report
+SELECT FILE_ID, FILE_NAME, FILE_TYPE, TABLESPACE_NAME, FREE_EXTENTS,
+       TOTAL_EXTENTS,  EXTENT_SIZE, INITIAL_SIZE, MAXIMUM_SIZE, AUTOEXTEND_SIZE, DATA_FREE, STATUS ENGINE
+       FROM INFORMATION_SCHEMA.FILES WHERE TABLESPACE_NAME LIKE 'innodb_system';
+			 
+ SELECT FILE_ID, FILE_NAME FROM INFORMATION_SCHEMA.FILES
+       WHERE FILE_NAME LIKE '%.ibd%' ORDER BY FILE_ID;
+			 
+#Table Space Usage Report			 
+SELECT s.schema_name,
+CONCAT(IFNULL(ROUND((SUM(t.data_length)+SUM(t.index_length))/1024/1024,2),0.00),"Mb") total_size,
+CONCAT(IFNULL(ROUND(((SUM(t.data_length)+SUM(t.index_length))-SUM(t.data_free))/1024/1024,2),0.00),"Mb") data_used,
+CONCAT(IFNULL(ROUND(SUM(data_free)/1024/1024,2),0.00),"Mb") data_free,
+IFNULL(ROUND((((SUM(t.data_length)+SUM(t.index_length))-SUM(t.data_free))/((SUM(t.data_length)+SUM(t.index_length)))*100),2),0) pct_used
+FROM INFORMATION_SCHEMA.SCHEMATA s, INFORMATION_SCHEMA.TABLES t
+WHERE s.schema_name = t.table_schema
+GROUP BY s.schema_name
+ORDER BY total_size DESC;
+
+
+#Check for Tables that have Free Space
+SELECT s.schema_name, table_name,
+CONCAT(IFNULL(ROUND((SUM(t.data_length)+SUM(t.index_length))/1024/1024,2),0.00),"Mb") total_size,
+CONCAT(IFNULL(ROUND(((SUM(t.data_length)+SUM(t.index_length))-SUM(t.data_free))/1024/1024,2),0.00),"Mb") data_used,
+CONCAT(IFNULL(ROUND(SUM(data_free)/1024/1024,2),0.00),"Mb") data_free,
+IFNULL(ROUND((((SUM(t.data_length)+SUM(t.index_length))-SUM(t.data_free))/((SUM(t.data_length)+SUM(t.index_length)))*100),2),0) pct_used
+FROM INFORMATION_SCHEMA.SCHEMATA s, INFORMATION_SCHEMA.TABLES t
+WHERE s.schema_name = t.table_schema
+GROUP BY s.schema_name, table_name
+ORDER BY total_size DESC;
+
+SELECT s.schema_name, table_name,
+IFNULL(ROUND(SUM(data_free)/1024,2),0.00) data_free
+FROM INFORMATION_SCHEMA.SCHEMATA s, INFORMATION_SCHEMA.TABLES t
+WHERE s.schema_name = t.table_schema
+GROUP BY s.schema_name, table_name
+HAVING data_free > 100
+ORDER BY data_free DESC;
+
+
+select table_schema as db,table_name, round((data_length) / 1048576,1) as tablesize,round((index_length) / 1048576,1) as indexsize from information_schema.tables order by data_length desc limit 20;
+
+SELECT DISTINCT t.table_schema, t.table_name, p.tablespace_name
+FROM partitions p JOIN TABLES t ON (t.table_schema=p.table_schema and t.table_name = p.table_name)
+WHERE t.engine='ndbcluster' and tablespace_name IS NOT NULL;
+
+SELECT cluster_name from mysql_innodb_cluster_metadata.clusters;
+
+SHOW PROCESSLIST;
+
+SHOW SLAVE HOSTS;
+
+show variables like 'datadir';
+
+select * from information_schema.FILES;
+
+show variables like 'innodb_file_per_table';
+
