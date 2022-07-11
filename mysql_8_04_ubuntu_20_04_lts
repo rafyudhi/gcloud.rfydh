@@ -1,0 +1,63 @@
+mysql --version
+output : 
+mysql  Ver 8.0.27-0ubuntu0.20.04.1 for Linux on x86_64 ((Ubuntu))
+
+sudo systemctl stop mysql.service
+sudo systemctl status mysql.service
+sudo systemctl edit mysql.service
+
+add content : 
+
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/mysqld --skip-grant-tables --skip-networking
+
+sudo systemctl daemon-reload
+sudo systemctl start mysql.service
+sudo systemctl status mysql.service
+
+CGroup: /system.slice/mysql.service
+              └─1905 /usr/sbin/mysqld --skip-grant-tables --skip-networking
+
+
+sudo mysql -u root
+
+mysql>FLUSH PRIVILEGES;
+mysql>ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'K0rl@nt4s@2o22';
+mysql>exit
+
+sudo systemctl revert mysql.service
+
+maka akan muncul : 
+Removed /etc/systemd/system/mysql.service.d/override.conf.
+Removed /etc/systemd/system/mysql.service.d.
+
+sudo systemctl daemon-reload
+sudo systemctl restart mysql.service
+
+mysql -u root -p
+
+mysql>CREATE USER 'sim_devops'@'%' IDENTIFIED BY 'P@ssw0rd@2o22';
+mysql>GRANT ALL PRIVILEGES ON sim_dwh.* TO 'sim_devops'@'%' WITH GRANT OPTION;
+mysql>FLUSH PRIVILEGES;
+mysql>GRANT ALL PRIVILEGES ON sim_frs.* TO 'sim_devops'@'%' WITH GRANT OPTION;
+mysql>FLUSH PRIVILEGES;
+mysql>exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
