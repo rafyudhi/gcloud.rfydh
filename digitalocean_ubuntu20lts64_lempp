@@ -1,10 +1,14 @@
+# ubah waktu time zone
+$ sudo timedatectl set-timezone Asia/Jakarta
+$ timedatectl
+
 sudo nano /etc/ssh/sshd_config
 
 # Change to no to disable tunnelled clear text passwords
 PasswordAuthentication yes
 sudo service ssh restart
 
-# add port 80 to firewall ubuntu 20 LTS
+# add port 80 to firewall ubuntu 20 LTS | kayanya ga usah, via Security Network Oracle Cloud nya ajah
 sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 80 -j ACCEPT
 sudo netfilter-persistent save
 
