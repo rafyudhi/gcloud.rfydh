@@ -9,6 +9,9 @@ max_input_vars = 10000
 memory_limit = 1024
 max_execution_time = 300
 
+-- masuk command
+$ su jet
+
 su jet restart apache
 
 -- after install
