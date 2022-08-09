@@ -2,40 +2,31 @@
 $ sudo timedatectl set-timezone Asia/Jakarta
 $ timedatectl
 
-sudo nano /etc/ssh/sshd_config
+$ sudo nano /etc/ssh/sshd_config
 
 # Change to no to disable tunnelled clear text passwords
 PasswordAuthentication yes
-sudo service ssh restart
+$ sudo service ssh restart
 
 # add port 80 to firewall ubuntu 20 LTS | kayanya ga usah, via Security Network Oracle Cloud nya ajah
 sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 80 -j ACCEPT
+sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
 sudo netfilter-persistent save
 
 sudo adduser devops
 sudo usermod -aG sudo devops
-sudo nano /etc/ssh/sshd_config
-
-# add existing user to www-data, jadi user tetep bisa write di www-data folder
-sudo usermod -a -G www-data terangtrip
 
 # To see list of all members of a group named www-data, run the following grep command on /etc/group file:
 grep ^www-data /etc/group
 
-# Change to no to disable tunnelled clear text passwords
-PasswordAuthentication yes
-
-sudo service ssh restart
-
 sudo apt update
 sudo apt upgrade
+
 sudo apt install nginx
 sudo systemctl enable nginx
 sudo systemctl start nginx
 systemctl status nginx
 nginx -v
-
-sudo chown www-data:www-data /usr/share/nginx/html -R
 
 sudo apt install mariadb-server mariadb-client
 systemctl status mariadb
