@@ -1,2 +1,10 @@
- # inbound connection
- netstat -o state established '( sport = :http or sport = :https )'
+# inbound connection
+
+netstat -o state established '( sport = :http or sport = :https )'
+ 
+
+# List all IP addresses connected to your Server
+# https://mkyong.com/linux/list-all-ip-addresses-connected-to-your-server/
+
+netstat -tn 2>/dev/null | grep :80 | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr | head
+ 
