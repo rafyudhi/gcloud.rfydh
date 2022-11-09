@@ -1,0 +1,11 @@
+Laravel Playground
+
+composer global require laravel/installer
+
+# buat tau versi laravel nu loba tea
+composer info -a laravel/laravel
+
+
+composer create-project laravel/laravel="^8.0" tokomebel-laravel8
+
+composer create-project laravel/laravel="^6.0" app-laravel6
