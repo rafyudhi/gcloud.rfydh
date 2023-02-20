@@ -158,7 +158,7 @@ redis-cli
 sudo systemctl restart redis
 
 # install php-redis
-sudo apt install php-redis
+sudo apt install php7.3-redis
 sudo systemctl restart php7.3-fpm
 
 #install lest encrypt https
